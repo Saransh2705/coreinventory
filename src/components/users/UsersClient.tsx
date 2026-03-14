@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
@@ -174,7 +173,7 @@ export default function UsersClient({ initialUsers, currentUser }: Props) {
   const editNeedsWarehouse = editRole === "Warehouse Manager" || editRole === "Warehouse Staff";
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader 
         title="Users" 
         subtitle="Manage system users and access"
@@ -413,6 +412,6 @@ export default function UsersClient({ initialUsers, currentUser }: Props) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
+    </>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import PageHeader from '@/components/shared/PageHeader'
 import DataTable from '@/components/shared/DataTable'
 import { Badge } from '@/components/ui/badge'
@@ -90,7 +89,7 @@ export default function ReceiptsClient({ initialReceipts, userRole }: ReceiptsCl
   const canManage = userRole === 'System Admin' || userRole === 'Warehouse Manager' || userRole === 'Warehouse Staff'
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title="Receipts"
         subtitle="Manage incoming stock from suppliers"
@@ -252,6 +251,6 @@ export default function ReceiptsClient({ initialReceipts, userRole }: ReceiptsCl
           </div>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
+    </>
   )
 }

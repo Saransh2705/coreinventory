@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import DataTable from '@/components/shared/DataTable'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
@@ -27,7 +26,7 @@ export default function MoveHistoryClient({ initialMoves }: MoveHistoryClientPro
   })
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-medium text-foreground tracking-tight">Move History</h1>
@@ -138,6 +137,6 @@ export default function MoveHistoryClient({ initialMoves }: MoveHistoryClientPro
         data={filteredMoves}
         pageSize={15}
       />
-    </DashboardLayout>
+    </>
   )
 }

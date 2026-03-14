@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import DataTable from "@/components/shared/DataTable";
 import { TableSkeleton, PageTitleSkeleton, FilterBarSkeleton } from "@/components/shared/Skeletons";
 import { stockItems } from "@/lib/mock-data";
@@ -16,16 +15,16 @@ export default function StockOverviewPage() {
 
   if (loading) {
     return (
-      <DashboardLayout>
+      <>
         <PageTitleSkeleton />
         <FilterBarSkeleton />
         <TableSkeleton columns={7} rows={8} />
-      </DashboardLayout>
+      </>
     );
   }
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-medium text-foreground tracking-tight">Stock Overview</h1>
@@ -56,6 +55,6 @@ export default function StockOverviewPage() {
         data={filtered}
         pageSize={10}
       />
-    </DashboardLayout>
+    </>
   );
 }

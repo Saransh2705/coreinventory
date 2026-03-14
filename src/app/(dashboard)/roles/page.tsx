@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Shield } from "lucide-react";
 import { PageTitleSkeleton, RoleCardSkeleton } from "@/components/shared/Skeletons";
 
@@ -18,17 +17,17 @@ export default function RolesPage() {
 
   if (loading) {
     return (
-      <DashboardLayout>
+      <>
         <PageTitleSkeleton />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Array.from({ length: 4 }).map((_, i) => <RoleCardSkeleton key={i} />)}
         </div>
-      </DashboardLayout>
+      </>
     );
   }
 
   return (
-    <DashboardLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-medium text-foreground tracking-tight">Roles</h1>
         <p className="text-sm text-muted-foreground mt-0.5">System role definitions and permissions</p>
@@ -50,6 +49,6 @@ export default function RolesPage() {
           </div>
         ))}
       </div>
-    </DashboardLayout>
+    </>
   );
 }

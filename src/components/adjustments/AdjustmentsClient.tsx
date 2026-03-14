@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import PageHeader from '@/components/shared/PageHeader'
 import DataTable from '@/components/shared/DataTable'
 import { Button } from '@/components/ui/button'
@@ -48,7 +47,7 @@ export default function AdjustmentsClient({ initialAdjustments, userRole }: Adju
   const canManage = userRole === 'System Admin' || userRole === 'Warehouse Manager' || userRole === 'Warehouse Staff'
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title="Inventory Adjustments"
         subtitle="Track stock quantity corrections and adjustments"
@@ -164,6 +163,6 @@ export default function AdjustmentsClient({ initialAdjustments, userRole }: Adju
         data={filteredAdjustments}
         pageSize={10}
       />
-    </DashboardLayout>
+    </>
   )
 }

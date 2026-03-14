@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { PageTitleSkeleton, FormSkeleton } from "@/components/shared/Skeletons";
@@ -12,18 +11,18 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <DashboardLayout>
+      <>
         <PageTitleSkeleton />
         <div className="space-y-6 max-w-2xl">
           <FormSkeleton fields={2} />
           <FormSkeleton fields={2} />
         </div>
-      </DashboardLayout>
+      </>
     );
   }
 
   return (
-    <DashboardLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-medium text-foreground tracking-tight">Settings</h1>
         <p className="text-sm text-muted-foreground mt-0.5">System configuration</p>
@@ -80,6 +79,6 @@ export default function SettingsPage() {
           </Button>
         </motion.div>
       </div>
-    </DashboardLayout>
+    </>
   );
 }

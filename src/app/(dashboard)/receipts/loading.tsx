@@ -1,12 +1,11 @@
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import { PageTitleSkeleton, TableSkeleton, FilterBarSkeleton } from '@/components/shared/Skeletons'
 
-export default function LoadingMoveHistory() {
+export default function LoadingReceipts() {
   return (
-    <DashboardLayout>
+    <>
       <PageTitleSkeleton />
       <FilterBarSkeleton />
       <TableSkeleton columns={7} rows={8} />
-    </DashboardLayout>
+    </>
   )
 }

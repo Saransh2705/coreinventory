@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
 import DataTable from "@/components/shared/DataTable";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -43,7 +42,7 @@ export default function WarehousesClient({ initialWarehouses, isAdmin }: Props) 
   };
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title="Warehouses"
         subtitle={`${warehouses.length} warehouse${warehouses.length !== 1 ? "s" : ""} registered`}
@@ -113,6 +112,6 @@ export default function WarehousesClient({ initialWarehouses, isAdmin }: Props) 
         data={warehouses}
         pageSize={10}
       />
-    </DashboardLayout>
+    </>
   );
 }

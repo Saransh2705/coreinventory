@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import PageHeader from '@/components/shared/PageHeader'
 import DataTable from '@/components/shared/DataTable'
 import { Badge } from '@/components/ui/badge'
@@ -90,7 +89,7 @@ export default function DeliveriesClient({ initialDeliveries, userRole }: Delive
   const canManage = userRole === 'System Admin' || userRole === 'Warehouse Manager' || userRole === 'Warehouse Staff'
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title="Deliveries"
         subtitle="Manage outgoing stock to customers"
@@ -250,6 +249,6 @@ export default function DeliveriesClient({ initialDeliveries, userRole }: Delive
           </div>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
+    </>
   )
 }

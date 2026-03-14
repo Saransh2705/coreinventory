@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
@@ -66,7 +65,7 @@ export default function ProductsClient({ initialProducts, initialCategories, isA
   const stockStatuses = ["All", "In Stock", "Low Stock", "Out of Stock"];
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader title="Products" subtitle={`${products.length} products in inventory`}>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
@@ -146,6 +145,6 @@ export default function ProductsClient({ initialProducts, initialCategories, isA
         data={filtered}
         pageSize={10}
       />
-    </DashboardLayout>
+    </>
   );
 }

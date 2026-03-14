@@ -1,6 +1,5 @@
 'use client'
 
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import KPICard from '@/components/shared/KPICard'
 import DataTable from '@/components/shared/DataTable'
 import { Badge } from '@/components/ui/badge'
@@ -45,7 +44,7 @@ export default function DashboardClient({
   ]
 
   return (
-    <DashboardLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-medium text-foreground tracking-tight">Dashboard</h1>
         <p className="text-sm text-muted-foreground mt-0.5">
@@ -166,6 +165,6 @@ export default function DashboardClient({
           pageSize={5}
         />
       </div>
-    </DashboardLayout>
+    </>
   )
 }

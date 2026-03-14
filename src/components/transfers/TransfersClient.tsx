@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DashboardLayout from '@/components/layout/DashboardLayout'
 import PageHeader from '@/components/shared/PageHeader'
 import DataTable from '@/components/shared/DataTable'
 import { Badge } from '@/components/ui/badge'
@@ -90,7 +89,7 @@ export default function TransfersClient({ initialTransfers, userRole }: Transfer
   const canManage = userRole === 'System Admin' || userRole === 'Warehouse Manager' || userRole === 'Warehouse Staff'
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title="Internal Transfers"
         subtitle="Move stock between locations"
@@ -260,6 +259,6 @@ export default function TransfersClient({ initialTransfers, userRole }: Transfer
           </div>
         </DialogContent>
       </Dialog>
-    </DashboardLayout>
+    </>
   )
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { PageTitleSkeleton, ProfileCardSkeleton } from "@/components/shared/Skeletons";
@@ -12,15 +11,15 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <DashboardLayout>
+      <>
         <PageTitleSkeleton subtitle={false} />
         <ProfileCardSkeleton />
-      </DashboardLayout>
+      </>
     );
   }
 
   return (
-    <DashboardLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-medium text-foreground tracking-tight">My Profile</h1>
       </div>
@@ -45,6 +44,6 @@ export default function ProfilePage() {
           </motion.div>
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 }
