@@ -37,7 +37,7 @@ const TopNav = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-14 bg-card/80 backdrop-blur-md border-b border-border z-50 flex items-center px-4 gap-4">
+    <header className="fixed top-0 left-0 right-0 h-14 bg-card/80 backdrop-blur-md border-b border-border z-50 flex items-center px-4 gap-4 print:hidden">
       {/* Logo */}
       <div className="flex items-center gap-2 w-[240px] shrink-0">
         <div className="w-8 h-8 rounded-md bg-accent flex items-center justify-center">

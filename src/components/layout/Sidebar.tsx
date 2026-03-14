@@ -84,7 +84,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-14 bottom-0 w-[240px] bg-card border-r border-border z-40 flex flex-col">
+    <aside className="fixed left-0 top-14 bottom-0 w-[240px] bg-card border-r border-border z-40 flex flex-col print:hidden">
       <nav className="py-3 px-3 flex flex-col gap-0.5 flex-1 overflow-y-auto">
         {navItems.map((item) => {
           if (item.path) {
