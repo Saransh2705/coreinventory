@@ -45,7 +45,7 @@ export default function UsersPage() {
       >
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90 h-9 px-4 text-sm font-medium">
               <UserPlus className="w-4 h-4" />
               Invite User
             </Button>
