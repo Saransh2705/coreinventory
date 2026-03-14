@@ -51,7 +51,7 @@ Core Stock Hub is a production-ready inventory management platform designed for 
 ## 📁 Project Structure
 
 ```
-core-stock-hub/
+coreinventory/
 ├── src/
 │   ├── app/                    # Next.js App Router pages
 │   │   ├── layout.tsx          # Root layout
@@ -96,8 +96,8 @@ core-stock-hub/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd core-stock-hub
+   git clone https://github.com/Saransh2705/coreinventory.git
+   cd coreinventory
    ```
 
 2. **Install dependencies**
