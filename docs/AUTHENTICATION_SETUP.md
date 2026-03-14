@@ -29,7 +29,7 @@ Run the migration to create the necessary tables and functions:
 
 1. Go to your Supabase Dashboard
 2. Navigate to **SQL Editor**
-3. Copy and run the contents of `supabase/migrations/001_initial_schema.sql`
+3. Copy and run the contents of `supabase/migrations`
 
 This will create:
 - `profiles` table for user information
