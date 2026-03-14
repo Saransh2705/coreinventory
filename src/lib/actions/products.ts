@@ -107,14 +107,14 @@ export async function getProduct(id: string) {
   const status =
     totalAvailable === 0
       ? 'Out of Stock'
-      : totalAvailable <= product.reorder_level
+      : totalAvailable <= product!.reorder_level
         ? 'Low Stock'
         : 'In Stock'
 
   return {
     success: true,
     data: {
-      ...product,
+      ...product!,
       stock_available: totalAvailable,
       stock_reserved: totalReserved,
       status,

@@ -1,42 +1,33 @@
-"use client";
+import { getDeliveries } from '@/lib/actions/deliveries'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+import DeliveriesClient from '@/components/deliveries/DeliveriesClient'
 
-import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
-import PageHeader from "@/components/shared/PageHeader";
-import { TableSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
-import DataTable from "@/components/shared/DataTable";
-import { Badge } from "@/components/ui/badge";
-import { getStatusVariant } from "@/components/shared/DataTable";
-import { recentDeliveries } from "@/lib/mock-data";
+export const dynamic = 'force-dynamic'
 
-export default function DeliveriesPage() {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => { setLoading(false); }, []);
-
-  if (loading) {
-    return (
-      <DashboardLayout>
-        <PageTitleSkeleton />
-        <TableSkeleton columns={6} rows={8} />
-      </DashboardLayout>
-    );
+export default async function DeliveriesPage() {
+  const supabase = await createClient()
+  
+  // Check authentication
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    redirect('/login')
   }
 
+  // Get user role
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  // Fetch deliveries
+  const deliveries = await getDeliveries()
+
   return (
-    <DashboardLayout>
-      <PageHeader title="Deliveries" subtitle="Manage outgoing stock to customers" action="Create Delivery" />
-      <DataTable
-        columns={[
-          { key: "id", label: "Delivery ID" },
-          { key: "customer", label: "Customer", render: (r) => <span className="font-medium text-foreground">{r.customer}</span> },
-          { key: "warehouse", label: "Warehouse" },
-          { key: "items", label: "Items", align: "right" },
-          { key: "status", label: "Status", render: (r) => <Badge variant={getStatusVariant(r.status)}>{r.status}</Badge> },
-          { key: "date", label: "Date" },
-        ]}
-        data={recentDeliveries}
-        pageSize={10}
-      />
-    </DashboardLayout>
-  );
+    <DeliveriesClient 
+      initialDeliveries={deliveries}
+      userRole={profile?.role || 'Viewer'}
+    />
+  )
 }

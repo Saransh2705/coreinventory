@@ -25,7 +25,7 @@ const TopNav = () => {
         
         setUser({
           email: authUser.email || '',
-          full_name: profile?.full_name || authUser.email?.split('@')[0] || 'User'
+          full_name: (profile as { full_name: string | null } | null)?.full_name || authUser.email?.split('@')[0] || 'User'
         });
       }
     };

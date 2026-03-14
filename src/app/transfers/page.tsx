@@ -1,41 +1,33 @@
-"use client";
+import { getTransfers } from '@/lib/actions/transfers'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+import TransfersClient from '@/components/transfers/TransfersClient'
 
-import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layout/DashboardLayout";
-import PageHeader from "@/components/shared/PageHeader";
-import { TableSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
-import DataTable from "@/components/shared/DataTable";
-import { Badge } from "@/components/ui/badge";
-import { getStatusVariant } from "@/components/shared/DataTable";
-import { recentTransfers } from "@/lib/mock-data";
+export const dynamic = 'force-dynamic'
 
-export default function TransfersPage() {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => { setLoading(false); }, []);
-
-  if (loading) {
-    return (
-      <DashboardLayout>
-        <PageTitleSkeleton />
-        <TableSkeleton columns={5} rows={8} />
-      </DashboardLayout>
-    );
+export default async function TransfersPage() {
+  const supabase = await createClient()
+  
+  // Check authentication
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    redirect('/login')
   }
 
+  // Get user role
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  // Fetch transfers
+  const transfers = await getTransfers()
+
   return (
-    <DashboardLayout>
-      <PageHeader title="Internal Transfers" subtitle="Move stock between locations" action="Create Transfer" />
-      <DataTable
-        columns={[
-          { key: "id", label: "Transfer ID" },
-          { key: "fromLocation", label: "From Location" },
-          { key: "toLocation", label: "To Location" },
-          { key: "items", label: "Items", align: "right" },
-          { key: "status", label: "Status", render: (r) => <Badge variant={getStatusVariant(r.status)}>{r.status}</Badge> },
-        ]}
-        data={recentTransfers}
-        pageSize={10}
-      />
-    </DashboardLayout>
-  );
+    <TransfersClient 
+      initialTransfers={transfers}
+      userRole={profile?.role || 'Viewer'}
+    />
+  )
 }
