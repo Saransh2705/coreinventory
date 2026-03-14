@@ -45,6 +45,7 @@ next-env.d.ts
 
 # Editor directories and files
 .vscode/*
+!.vscode/settings.json
 !.vscode/extensions.json
 .idea
 *.suo
