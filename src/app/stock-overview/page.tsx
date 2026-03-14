@@ -1,15 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import DataTable from "@/components/shared/DataTable";
+import { TableSkeleton, PageTitleSkeleton, FilterBarSkeleton } from "@/components/shared/Skeletons";
 import { stockItems } from "@/lib/mock-data";
 
 export default function StockOverviewPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
   const [warehouseFilter, setWarehouseFilter] = useState("All");
   const whs = ["All", ...new Set(stockItems.map((s) => s.warehouse))];
 
   const filtered = warehouseFilter === "All" ? stockItems : stockItems.filter((s) => s.warehouse === warehouseFilter);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <FilterBarSkeleton />
+        <TableSkeleton columns={7} rows={8} />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

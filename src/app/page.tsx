@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import KPICard from "@/components/shared/KPICard";
+import { TableSkeleton, KPICardSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { getStatusVariant } from "@/components/shared/DataTable";
@@ -11,6 +13,9 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
   const kpis = [
     { label: "Total Products", value: kpiData.totalProducts, icon: Package },
     { label: "Low Stock Items", value: kpiData.lowStockItems, icon: AlertTriangle, trend: "-12% vs last month", trendColor: "destructive" as const },
@@ -21,6 +26,22 @@ export default function Dashboard() {
     { label: "Total Warehouses", value: kpiData.totalWarehouses, icon: Building2 },
     { label: "Total Locations", value: kpiData.totalLocations, icon: MapPin },
   ];
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {Array.from({ length: 8 }).map((_, i) => <KPICardSkeleton key={i} />)}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <TableSkeleton columns={6} rows={5} />
+          <TableSkeleton columns={6} rows={5} />
+        </div>
+        <TableSkeleton columns={5} rows={5} />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

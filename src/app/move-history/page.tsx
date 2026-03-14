@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { TableSkeleton, PageTitleSkeleton, FilterBarSkeleton } from "@/components/shared/Skeletons";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { getStatusVariant } from "@/components/shared/DataTable";
@@ -9,10 +10,22 @@ import { moveHistory } from "@/lib/mock-data";
 import { Search } from "lucide-react";
 
 export default function MoveHistoryPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
   const [search, setSearch] = useState("");
   const filtered = moveHistory.filter(
     (m) => m.product.toLowerCase().includes(search.toLowerCase()) || m.id.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <FilterBarSkeleton />
+        <TableSkeleton columns={7} rows={8} />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

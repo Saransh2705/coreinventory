@@ -1,10 +1,24 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { PageTitleSkeleton, ProfileCardSkeleton } from "@/components/shared/Skeletons";
 
 export default function ProfilePage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton subtitle={false} />
+        <ProfileCardSkeleton />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="mb-6">

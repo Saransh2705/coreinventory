@@ -1,9 +1,25 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
 import DataTable from "@/components/shared/DataTable";
 import { locations } from "@/lib/mock-data";
+import { TableSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
 
 export default function LocationsPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <TableSkeleton columns={6} rows={8} />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <PageHeader title="Locations" subtitle="Racks and shelves across all warehouses" action="Create Location" />

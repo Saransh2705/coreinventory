@@ -1,13 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
+import { TableSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { getStatusVariant } from "@/components/shared/DataTable";
 import { recentDeliveries } from "@/lib/mock-data";
 
 export default function DeliveriesPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <TableSkeleton columns={6} rows={8} />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <PageHeader title="Deliveries" subtitle="Manage outgoing stock to customers" action="Create Delivery" />

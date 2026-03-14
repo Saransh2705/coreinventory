@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,17 +13,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Package, AlertCircle, CheckCircle, UserPlus } from "lucide-react";
-import { inviteUser } from "@/lib/actions/auth";
-import { UserRole } from "@/types/supabase";
+import { AlertCircle, CheckCircle, UserPlus } from "lucide-react";
+import { inviteUser, listWarehouses } from "@/lib/actions/auth";
+import { UserRole, Warehouse } from "@/types/supabase";
 
-export default function CreateUserForm() {
+interface CreateUserFormProps {
+  currentUserRole?: UserRole;
+  currentUserWarehouseId?: string | null;
+}
+
+const ROLE_OPTIONS: Record<UserRole, UserRole[]> = {
+  "System Admin": ["System Admin", "Warehouse Manager", "Warehouse Staff", "Viewer"],
+  "Warehouse Manager": ["Warehouse Staff", "Viewer"],
+  "Warehouse Staff": [],
+  "Viewer": [],
+};
+
+export default function CreateUserForm({ currentUserRole, currentUserWarehouseId }: CreateUserFormProps) {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [role, setRole] = useState<UserRole | "">("");
+  const [warehouseId, setWarehouseId] = useState<string>("");
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const isWarehouseManager = currentUserRole === "Warehouse Manager";
+  const allowedRoles = ROLE_OPTIONS[currentUserRole || "System Admin"];
+  const needsWarehouse = role === "Warehouse Manager" || role === "Warehouse Staff";
+
+  useEffect(() => {
+    if (isWarehouseManager) return; // Warehouse managers can only assign their own warehouse
+    const fetchWarehouses = async () => {
+      const result = await listWarehouses();
+      if (result.success && result.data) {
+        setWarehouses(result.data);
+      }
+    };
+    fetchWarehouses();
+  }, [isWarehouseManager]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,13 +66,21 @@ export default function CreateUserForm() {
       return;
     }
 
-    const result = await inviteUser(email, fullName, role as UserRole);
+    if (needsWarehouse && !warehouseId) {
+      setError("Please select a warehouse for this role");
+      setLoading(false);
+      return;
+    }
+
+    const effectiveWarehouseId = isWarehouseManager ? currentUserWarehouseId || undefined : (needsWarehouse ? warehouseId : undefined);
+    const result = await inviteUser(email, fullName, role as UserRole, effectiveWarehouseId);
 
     if (result.success) {
       setSuccess("User invitation sent successfully! They will receive an email with setup instructions.");
       setEmail("");
       setFullName("");
       setRole("");
+      setWarehouseId("");
     } else {
       setError(result.error || "Failed to invite user");
     }
@@ -52,21 +89,16 @@ export default function CreateUserForm() {
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6">
-      <div className="flex items-center gap-2 mb-6">
-        <UserPlus className="w-5 h-5 text-accent" />
-        <h2 className="text-lg font-semibold text-foreground">Invite New User</h2>
-      </div>
-
+    <div className="space-y-4">
       {error && (
-        <Alert variant="destructive" className="mb-4">
+        <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
       {success && (
-        <Alert className="mb-4 border-green-500 bg-green-50 dark:bg-green-900/10">
+        <Alert className="border-green-500 bg-green-50 dark:bg-green-900/10">
           <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
           <AlertDescription className="text-green-800 dark:text-green-300">{success}</AlertDescription>
         </Alert>
@@ -99,25 +131,50 @@ export default function CreateUserForm() {
 
         <div className="space-y-2">
           <Label htmlFor="role">Role</Label>
-          <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
+          <Select value={role} onValueChange={(value) => { setRole(value as UserRole); setWarehouseId(""); }}>
             <SelectTrigger>
               <SelectValue placeholder="Select a role" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="System Admin">System Admin</SelectItem>
-              <SelectItem value="Warehouse Manager">Warehouse Manager</SelectItem>
-              <SelectItem value="Warehouse Staff">Warehouse Staff</SelectItem>
-              <SelectItem value="Viewer">Viewer</SelectItem>
+              {allowedRoles.map((r) => (
+                <SelectItem key={r} value={r}>{r}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        {needsWarehouse && !isWarehouseManager && (
+          <div className="space-y-2">
+            <Label htmlFor="warehouse">Assign Warehouse</Label>
+            <Select value={warehouseId} onValueChange={setWarehouseId}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a warehouse" />
+              </SelectTrigger>
+              <SelectContent>
+                {warehouses.length === 0 ? (
+                  <SelectItem value="__none" disabled>No warehouses found — create one first</SelectItem>
+                ) : (
+                  warehouses.map((wh) => (
+                    <SelectItem key={wh.id} value={wh.id}>
+                      {wh.name} ({wh.short_code})
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        <Button
+          type="submit"
+          className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+          disabled={loading}
+        >
           {loading ? "Sending invitation..." : "Send Invitation"}
         </Button>
       </form>
 
-      <p className="text-xs text-muted-foreground mt-4">
+      <p className="text-xs text-muted-foreground">
         The user will receive an email with a magic link to set up their password and access the system.
       </p>
     </div>

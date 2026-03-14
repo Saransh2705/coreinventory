@@ -1,13 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
+import { TableSkeleton, PageTitleSkeleton } from "@/components/shared/Skeletons";
 import DataTable from "@/components/shared/DataTable";
 import { Badge } from "@/components/ui/badge";
 import { getStatusVariant } from "@/components/shared/DataTable";
 import { recentReceipts } from "@/lib/mock-data";
 
 export default function ReceiptsPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <TableSkeleton columns={6} rows={8} />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <PageHeader title="Receipts" subtitle="Manage incoming stock from suppliers" action="Create Receipt" />

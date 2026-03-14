@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Package, AlertCircle, Lock, Eye, EyeOff, Loader2, Check, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { setupPassword } from "./actions";
+import { resetPassword } from "./actions";
 
 const passwordRules = [
   { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
@@ -18,7 +18,7 @@ const passwordRules = [
   { label: "One special character", test: (p: string) => /[^A-Za-z0-9]/.test(p) },
 ];
 
-export default function SetupPasswordPage() {
+export default function ResetPasswordPage() {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -34,14 +34,12 @@ export default function SetupPasswordPage() {
     const exchangeToken = async () => {
       const supabase = createClient();
 
-      // Parse the URL hash
       const hash = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
 
-      // Check for error in the hash (e.g. expired OTP)
       const hashError = params.get("error_description");
       if (hashError) {
-        setError(decodeURIComponent(hashError) + ". Please ask your admin for a new invitation.");
+        setError(decodeURIComponent(hashError) + ". Please request a new reset link.");
         window.history.replaceState(null, "", window.location.pathname);
         return;
       }
@@ -61,14 +59,13 @@ export default function SetupPasswordPage() {
         }
       }
 
-      // Fallback: check if session already exists
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setSessionReady(true);
         return;
       }
 
-      setError("Invalid or expired invite link. Please ask your admin for a new invitation.");
+      setError("Invalid or expired reset link. Please request a new one from the login page.");
     };
     exchangeToken();
   }, []);
@@ -94,13 +91,12 @@ export default function SetupPasswordPage() {
     formData.append("password", password);
     formData.append("confirmPassword", confirmPassword);
 
-    const result = await setupPassword(formData);
+    const result = await resetPassword(formData);
 
     if (result?.error) {
       setError(result.error);
       setLoading(false);
     } else {
-      // Redirect will be handled by server action
       router.push("/");
       router.refresh();
     }
@@ -119,16 +115,16 @@ export default function SetupPasswordPage() {
             <div className="w-12 h-12 rounded-md bg-accent flex items-center justify-center mb-3">
               <Lock className="w-6 h-6 text-accent-foreground" />
             </div>
-            <h1 className="text-xl font-semibold text-foreground">Set Up Your Password</h1>
+            <h1 className="text-xl font-semibold text-foreground">Reset Your Password</h1>
             <p className="text-sm text-muted-foreground mt-2 text-center">
-              Welcome! Please create a secure password to access your account.
+              Enter a new password for your account.
             </p>
           </div>
 
-          {!sessionReady && (
+          {!sessionReady && !error && (
             <div className="flex items-center gap-2 justify-center py-4 text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
-              <span className="text-sm">Verifying your invite link...</span>
+              <span className="text-sm">Verifying your reset link...</span>
             </div>
           )}
 
@@ -205,7 +201,7 @@ export default function SetupPasswordPage() {
             </div>
 
             <Button type="submit" className="w-full" disabled={loading || !sessionReady || !allRulesPass}>
-              {loading ? "Setting up..." : "Set Password & Continue"}
+              {loading ? "Updating..." : "Update Password"}
             </Button>
           </form>
 

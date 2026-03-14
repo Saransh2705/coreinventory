@@ -1,5 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Shield } from "lucide-react";
+import { PageTitleSkeleton, RoleCardSkeleton } from "@/components/shared/Skeletons";
 
 const roles = [
   { name: "System Admin", description: "Full system access. Can manage warehouses, all users, and system settings.", permissions: ["Create/Edit Warehouses", "Create Managers & Viewers", "View all data", "Manage roles"] },
@@ -9,6 +13,20 @@ const roles = [
 ];
 
 export default function RolesPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => <RoleCardSkeleton key={i} />)}
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="mb-6">

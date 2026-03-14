@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,6 +98,12 @@ export default function LoginPage() {
               </Button>
             </motion.div>
           </form>
+
+          <div className="mt-4 text-center">
+            <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Forgot your password?
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>

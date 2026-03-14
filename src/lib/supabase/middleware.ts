@@ -55,8 +55,8 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname
 
-  // Allow access to setup-password page
-  if (path === '/setup-password') {
+  // Allow access to setup-password and reset-password pages
+  if (path === '/setup-password' || path === '/reset-password' || path === '/forgot-password') {
     return supabaseResponse
   }
 

@@ -1,7 +1,23 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import PageHeader from "@/components/shared/PageHeader";
+import { PageTitleSkeleton, FormSkeleton } from "@/components/shared/Skeletons";
 
 export default function AdjustmentsPage() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { setLoading(false); }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <PageTitleSkeleton />
+        <FormSkeleton fields={4} />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <PageHeader title="Inventory Adjustments" subtitle="Correct stock mismatches" action="New Adjustment" />

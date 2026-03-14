@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export async function setupPassword(formData: FormData) {
+export async function resetPassword(formData: FormData) {
   const supabase = await createClient()
 
   const password = formData.get('password') as string
@@ -30,7 +30,6 @@ export async function setupPassword(formData: FormData) {
     return { error: 'Password must contain at least one special character' }
   }
 
-  // Update password for the currently logged-in user (from magic link)
   const { error } = await supabase.auth.updateUser({
     password: password,
   })
