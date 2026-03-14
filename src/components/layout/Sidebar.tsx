@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { logout } from "@/app/login/actions";
 import {
   LayoutDashboard,
   Package,
@@ -19,6 +20,7 @@ import {
   Shield,
   Settings,
   ChevronDown,
+  LogOut,
 } from "lucide-react";
 
 interface NavItem {
@@ -82,8 +84,8 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-14 bottom-0 w-[240px] bg-card border-r border-border z-40 overflow-y-auto">
-      <nav className="py-3 px-3 flex flex-col gap-0.5">
+    <aside className="fixed left-0 top-14 bottom-0 w-[240px] bg-card border-r border-border z-40 flex flex-col">
+      <nav className="py-3 px-3 flex flex-col gap-0.5 flex-1 overflow-y-auto">
         {navItems.map((item) => {
           if (item.path) {
             return (
@@ -143,6 +145,17 @@ const Sidebar = () => {
           );
         })}
       </nav>
+
+      {/* Logout Button */}
+      <div className="px-3 py-3 border-t border-border">
+        <button
+          onClick={() => logout()}
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+        >
+          <LogOut className="w-[18px] h-[18px] shrink-0" strokeWidth={1.5} />
+          <span className="font-medium">Logout</span>
+        </button>
+      </div>
     </aside>
   );
 };
