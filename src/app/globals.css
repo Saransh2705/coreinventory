@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Default (Blue) ─── */
 @layer base {
   :root {
     --background: 210 40% 98%;
@@ -75,7 +76,135 @@
     --border: 217 33% 17%;
     --input: 217 33% 17%;
     --ring: 221 83% 53%;
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 215 20% 65%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 221 83% 53%;
   }
+}
+
+/* ─── Rose ─── */
+[data-color-theme="rose"] {
+  --accent: 346 77% 50%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 346 77% 50%;
+  --sidebar-ring: 346 77% 50%;
+}
+.dark[data-color-theme="rose"],
+.dark [data-color-theme="rose"] {
+  --accent: 346 77% 55%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 346 77% 55%;
+  --sidebar-ring: 346 77% 55%;
+}
+
+/* ─── Violet ─── */
+[data-color-theme="violet"] {
+  --accent: 263 70% 58%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 263 70% 58%;
+  --sidebar-ring: 263 70% 58%;
+}
+.dark[data-color-theme="violet"],
+.dark [data-color-theme="violet"] {
+  --accent: 263 70% 62%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 263 70% 62%;
+  --sidebar-ring: 263 70% 62%;
+}
+
+/* ─── Emerald ─── */
+[data-color-theme="emerald"] {
+  --accent: 160 84% 39%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 160 84% 39%;
+  --sidebar-ring: 160 84% 39%;
+}
+.dark[data-color-theme="emerald"],
+.dark [data-color-theme="emerald"] {
+  --accent: 160 84% 44%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 160 84% 44%;
+  --sidebar-ring: 160 84% 44%;
+}
+
+/* ─── Amber ─── */
+[data-color-theme="amber"] {
+  --accent: 25 95% 53%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 25 95% 53%;
+  --sidebar-ring: 25 95% 53%;
+}
+.dark[data-color-theme="amber"],
+.dark [data-color-theme="amber"] {
+  --accent: 25 95% 58%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 25 95% 58%;
+  --sidebar-ring: 25 95% 58%;
+}
+
+/* ─── Teal ─── */
+[data-color-theme="teal"] {
+  --accent: 173 80% 36%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 173 80% 36%;
+  --sidebar-ring: 173 80% 36%;
+}
+.dark[data-color-theme="teal"],
+.dark [data-color-theme="teal"] {
+  --accent: 173 80% 42%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 173 80% 42%;
+  --sidebar-ring: 173 80% 42%;
+}
+
+/* ─── Slate (Monochrome) ─── */
+[data-color-theme="slate"] {
+  --accent: 215 16% 47%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 215 16% 47%;
+  --sidebar-ring: 215 16% 47%;
+}
+.dark[data-color-theme="slate"],
+.dark [data-color-theme="slate"] {
+  --accent: 215 20% 65%;
+  --accent-foreground: 222 47% 11%;
+  --ring: 215 20% 65%;
+  --sidebar-ring: 215 20% 65%;
+}
+
+/* ─── Midnight (Deep dark sidebar) ─── */
+[data-color-theme="midnight"] {
+  --accent: 221 83% 53%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 221 83% 53%;
+  --sidebar-background: 222 47% 8%;
+  --sidebar-foreground: 215 20% 75%;
+  --sidebar-primary: 210 40% 98%;
+  --sidebar-primary-foreground: 222 47% 8%;
+  --sidebar-accent: 217 33% 14%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217 33% 14%;
+  --sidebar-ring: 221 83% 53%;
+}
+.dark[data-color-theme="midnight"],
+.dark [data-color-theme="midnight"] {
+  --accent: 221 83% 58%;
+  --accent-foreground: 0 0% 100%;
+  --ring: 221 83% 58%;
+  --sidebar-background: 222 47% 5%;
+  --sidebar-foreground: 215 20% 65%;
+  --sidebar-primary: 210 40% 98%;
+  --sidebar-primary-foreground: 222 47% 5%;
+  --sidebar-accent: 217 33% 10%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217 33% 12%;
+  --sidebar-ring: 221 83% 58%;
 }
 
 @layer base {
